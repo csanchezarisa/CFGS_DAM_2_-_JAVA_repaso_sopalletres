@@ -106,10 +106,11 @@ public class sopalletres {
 
     }
 
-    /* Busca en tot el tauler si hi figura la primera lletra de la paraula a cercar */
+    /* Busca en tot el tauler si hi figura la primera lletra de la par
+    aula a cercar */
     private void cercaParaula(boolean continuat, String paraulaPerCercar) throws InterruptedException {
 
-        boolean existeix;
+        boolean existeix = false;
 
         for (int fila = 1; fila < MIDATAULER - 1; fila++) {
             for (int columna = 1; columna < MIDATAULER - 1; columna++) {
@@ -131,12 +132,13 @@ public class sopalletres {
                             columna = MIDATAULER;
                         }
                     }
-                    else {
-                        System.out.println("No s'ha trobat aquesta paraula, prova amb una altre");
-                        stop();
-                    }
                 }
             }
+        }
+
+        if (!existeix) {
+            System.out.println("No s'ha trobat aquesta paraula, prova amb una altre");
+            stop();
         }
     }
 
