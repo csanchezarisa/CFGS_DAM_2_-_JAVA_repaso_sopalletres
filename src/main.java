@@ -1,7 +1,7 @@
 public class main {
 
     public final int MIDATAULER = 10;
-    public int[][] tauler = new int[MIDATAULER][MIDATAULER];
+    public char[][] tauler = new char[MIDATAULER][MIDATAULER];
 
     /* Llanca el programa principal */
     public static void main(String args[]) {
@@ -27,7 +27,7 @@ public class main {
     private void imprimirTauler() {
         for (int index = 0; index < MIDATAULER; index++) {
             for (int subIndex = 0; subIndex < MIDATAULER; subIndex++)
-                System.out.print(tauler[index][subIndex]);
+                System.out.print(tauler[index][subIndex] + " ");
             System.out.println();
         }
     }
