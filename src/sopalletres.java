@@ -1,15 +1,14 @@
-import java.util.IllegalFormatCodePointException;
 import java.util.Scanner;
 
-public class main {
+public class sopalletres {
 
-    public final int MIDATAULER = 12;
+    public final int MIDATAULER = 12; // La constant que deifineix la mida del tauler ha de tenir 2 files i columnes més, ja que s'ha de deixar un marge sense utilitzar per que el programa funcioni
     public char[][] tauler = new char[MIDATAULER][MIDATAULER];
     public Scanner teclat = new Scanner(System.in);
 
     /* Llanca el programa principal */
     public static void main(String args[]) throws InterruptedException {
-        main launch = new main();
+        sopalletres launch = new sopalletres();
         launch.launcher();
     }
 
@@ -17,7 +16,7 @@ public class main {
     public void launcher() throws InterruptedException {
         omplenarTauler();
 
-        char opcioUsuari = ' ';
+        char opcioUsuari;
         do {
 
             netejarPantalla();
@@ -28,25 +27,27 @@ public class main {
 
             switch (opcioUsuari) {
 
-                case 'a':
+                case 'a': // Decideix tornar a omplenar el tauler amb lletres noves
                     omplenarTauler();
                     netejarPantalla();
                     break;
 
-                case 'b':
+                case 'b': // Busca la paraula només 1 cop
                     buscarParaula(false);
                     break;
 
-                case 'c':
+                case 'c': // Busca la paraula repetida tants cops com hi sigui
                     buscarParaula(true);
                     break;
 
-                case 'd':
+                case 'd': // Surt del programa
                     System.out.println("Sortint...");
+                    stop();
                     break;
 
-                default:
+                default: // Introdueix una opcio no valida
                     System.out.println("Escull una opció vàlida!");
+                    stop();
                     break;
 
             }
@@ -58,11 +59,11 @@ public class main {
 
     /* Mostra el menú principal */
     private void menuPrincipal() {
-        System.out.println();
         System.out.println("a - Refer sopa de lletres");
         System.out.println("b - Buscar paraula 1 vegada");
         System.out.println("c - Buscar paraula totes les possibles");
         System.out.println("d - Sortir");
+        System.out.println();
     }
 
     /* S'encarrega d'omplenar amb lletres random el tauler */
@@ -81,6 +82,7 @@ public class main {
                 System.out.print(tauler[index][subIndex] + " ");
             System.out.println();
         }
+        System.out.println();
     }
 
     /* .: 2 :. Buscar paraula en el tauler */
@@ -89,8 +91,11 @@ public class main {
 
         netejarPantalla();
         imprimirTauler();
+        /* Es demana la paraula a cercar a l'usuari */
         System.out.print("Paraula a cercar: ");
         String paraula = teclat.next();
+
+        /* Comprova que la paraula contingui alguna lletra */
         if (paraula.length() >= 1) {
             cercaParaula(continuat, paraula);
         }
@@ -103,23 +108,25 @@ public class main {
 
     /* Busca en tot el tauler si hi figura la primera lletra de la paraula a cercar */
     private void cercaParaula(boolean continuat, String paraulaPerCercar) {
-        boolean existeix = false;
+
+        boolean existeix;
+
         for (int fila = 1; fila < MIDATAULER - 1; fila++) {
             for (int columna = 1; columna < MIDATAULER - 1; columna++) {
-                if (tauler[fila][columna] == paraulaPerCercar.charAt(0)) {
-                    existeix = false;
 
-                    if (paraulaPerCercar.length() == 1) {
+                if (tauler[fila][columna] == paraulaPerCercar.charAt(0)) { // Revisa que la lletra analitzada sigui igual que la primera de la paraula per analitzar
+
+                    if (paraulaPerCercar.length() == 1) { // Si la paraula te nomes una lletra deixa de buscar més
                         existeix = true;
                     }
-                    else {
+                    else { // En cas que sigui mes llarga, executa el metode que revisa si la segona lletra esta al voltant
                         existeix = revisarVoltant(fila, columna, paraulaPerCercar);
                     }
 
-                    if (existeix) {
+                    if (existeix) { // Posa la lletra en majuscula
                         tauler[fila][columna] = Character.toUpperCase(tauler[fila][columna]);
 
-                        if (!continuat) {
+                        if (!continuat) { // Si s'ha escollit nomes trobar una repeticio es sortira de la iteracio
                             fila = MIDATAULER;
                             columna = MIDATAULER;
                         }
@@ -133,17 +140,19 @@ public class main {
     public boolean revisarVoltant(int fila, int columna, String paraulaPerCercar) {
         boolean existeix = false;
 
+        /* Des de la coordenada on es troba la primera lletra, es revisa tot el seu voltant en busca de la segona lletra */
         for (int filaPerRevisar = fila - 1; filaPerRevisar <= fila + 1; filaPerRevisar++) {
             for (int columnaPerRevisar = columna - 1; columnaPerRevisar <= columna + 1; columnaPerRevisar++) {
+
                 if (tauler[filaPerRevisar][columnaPerRevisar] == paraulaPerCercar.charAt(1) && !(filaPerRevisar == fila && columnaPerRevisar == columna)) {
-                    if (paraulaPerCercar.length() == 2) {
+                    if (paraulaPerCercar.length() == 2) { // En cas que la paraula a cercar tingui només 2 lletres
                         existeix = true;
                     }
-                    else {
+                    else { // Si la paraula a cercar en te mes de dos
                         existeix = revisarDireccio(filaPerRevisar, columnaPerRevisar, (filaPerRevisar - fila), (columnaPerRevisar - columna), paraulaPerCercar);
                     }
 
-                    if (existeix) {
+                    if (existeix) { // En cas de la paraula trobar-se dins del tauler es posa en majuscula la lletra i es surt
                         tauler[filaPerRevisar][columnaPerRevisar] = Character.toUpperCase(tauler[filaPerRevisar][columnaPerRevisar]);
                         columnaPerRevisar = columna + 1;
                         filaPerRevisar = fila + 1;
@@ -155,10 +164,10 @@ public class main {
         return existeix;
     }
 
-    /* Revisa les lletres en la direcció en la que s'ha trobat coincidencia amb la segona lletra de la paraula a cercar */
+    /* Revisa les lletres en la direcció en la que s'ha trobat coincidencia amb la segona lletra de la paraula a cercar. Per saber la direccio s'utilitza l'increment que ha hagut de coordenades de la segona lletra respecte la primera */
     private boolean revisarDireccio(int filaSegonaLletra, int columnaSegonaLletra, int incrementY, int incrementX, String paraulaPerCercar) {
         boolean existeix = false;
-        int lletraParaula = 2;
+        int lletraParaula = 2; // Emmagatzemara la posicio de la paraula que s'esta analitzant
 
         for (int filaPerRevisar = (filaSegonaLletra + incrementY); filaPerRevisar >= 0 && filaPerRevisar < MIDATAULER; filaPerRevisar += incrementY) {
             for (int columnaPerRevisar = (columnaSegonaLletra + incrementX); columnaPerRevisar >= 0 && columnaPerRevisar < MIDATAULER; columnaPerRevisar += incrementX) {
@@ -167,18 +176,19 @@ public class main {
                     existeix = true;
                     lletraParaula ++;
                 }
-                if (lletraParaula >= paraulaPerCercar.length()) {
-                    filaPerRevisar = MIDATAULER;
-                    columnaPerRevisar = MIDATAULER;
+
+                if (lletraParaula >= paraulaPerCercar.length()) { // Si la posicio de la paraula es mes gran que la longitud de la mateixa, surt
+                    filaPerRevisar = MIDATAULER + 1;
+                    columnaPerRevisar = MIDATAULER + 1;
                 }
 
             }
         }
 
-        if (existeix) {
-            int repeticioPosarMajuscules = lletraParaula - 2;
+        if (existeix) { // En cas que la resta de llestres existeixin en la direccio correcta, aquestes es posaran en majuscula
+            int repeticioPosarMajuscules = lletraParaula - 2; // Es calcula quantes iteracions s'han de fer fins arribar al final de la paraula repetida
 
-            for (int index = 0; index < repeticioPosarMajuscules; index++) {
+            for (int index = 0; index < repeticioPosarMajuscules; index++) { // Es repeteix el bucle i incrementant les coordenades, possant en majuscula cada lletra
                 filaSegonaLletra += incrementY;
                 columnaSegonaLletra += incrementX;
                 tauler[filaSegonaLletra][columnaSegonaLletra] = Character.toUpperCase(tauler[filaSegonaLletra][columnaSegonaLletra]);
@@ -196,6 +206,6 @@ public class main {
 
     /* Mètode que para el programa i el deixa atorat */
     public void stop() throws InterruptedException {
-        Thread.sleep(10000);
+        Thread.sleep(3000);
     }
 }
