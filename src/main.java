@@ -1,3 +1,4 @@
+import java.util.IllegalFormatCodePointException;
 import java.util.Scanner;
 
 public class main {
@@ -128,6 +129,7 @@ public class main {
         }
     }
 
+    /* Revisa el voltant de la primera lletra trobada, per buscar una coincidencia amb la segona lletra de la paraula */
     public boolean revisarVoltant(int fila, int columna, String paraulaPerCercar) {
         boolean existeix = false;
 
@@ -136,14 +138,50 @@ public class main {
                 if (tauler[filaPerRevisar][columnaPerRevisar] == paraulaPerCercar.charAt(1) && !(filaPerRevisar == fila && columnaPerRevisar == columna)) {
                     if (paraulaPerCercar.length() == 2) {
                         existeix = true;
+                    }
+                    else {
+                        existeix = revisarDireccio(filaPerRevisar, columnaPerRevisar, (filaPerRevisar - fila), (columnaPerRevisar - columna), paraulaPerCercar);
+                    }
+
+                    if (existeix) {
                         tauler[filaPerRevisar][columnaPerRevisar] = Character.toUpperCase(tauler[filaPerRevisar][columnaPerRevisar]);
                         columnaPerRevisar = columna + 1;
                         filaPerRevisar = fila + 1;
                     }
-                    else {
-
-                    }
                 }
+            }
+        }
+
+        return existeix;
+    }
+
+    /* Revisa les lletres en la direcció en la que s'ha trobat coincidencia amb la segona lletra de la paraula a cercar */
+    private boolean revisarDireccio(int filaSegonaLletra, int columnaSegonaLletra, int incrementY, int incrementX, String paraulaPerCercar) {
+        boolean existeix = false;
+        int lletraParaula = 2;
+
+        for (int filaPerRevisar = (filaSegonaLletra + incrementY); filaPerRevisar >= 0 && filaPerRevisar < MIDATAULER; filaPerRevisar += incrementY) {
+            for (int columnaPerRevisar = (columnaSegonaLletra + incrementX); columnaPerRevisar >= 0 && columnaPerRevisar < MIDATAULER; columnaPerRevisar += incrementX) {
+
+                if (tauler[filaPerRevisar][columnaPerRevisar] == paraulaPerCercar.charAt(lletraParaula)) {
+                    existeix = true;
+                    lletraParaula ++;
+                }
+                if (lletraParaula >= paraulaPerCercar.length()) {
+                    filaPerRevisar = MIDATAULER;
+                    columnaPerRevisar = MIDATAULER;
+                }
+
+            }
+        }
+
+        if (existeix) {
+            int repeticioPosarMajuscules = lletraParaula - 2;
+
+            for (int index = 0; index < repeticioPosarMajuscules; index++) {
+                filaSegonaLletra += incrementY;
+                columnaSegonaLletra += incrementX;
+                tauler[filaSegonaLletra][columnaSegonaLletra] = Character.toUpperCase(tauler[filaSegonaLletra][columnaSegonaLletra]);
             }
         }
 
