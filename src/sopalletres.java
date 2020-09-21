@@ -7,7 +7,7 @@ public class sopalletres {
     public Scanner teclat = new Scanner(System.in);
 
     /* Llanca el programa principal */
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String[] arg) throws InterruptedException {
         sopalletres launch = new sopalletres();
         launch.launcher();
     }
@@ -107,7 +107,7 @@ public class sopalletres {
     }
 
     /* Busca en tot el tauler si hi figura la primera lletra de la paraula a cercar */
-    private void cercaParaula(boolean continuat, String paraulaPerCercar) {
+    private void cercaParaula(boolean continuat, String paraulaPerCercar) throws InterruptedException {
 
         boolean existeix;
 
@@ -130,6 +130,10 @@ public class sopalletres {
                             fila = MIDATAULER;
                             columna = MIDATAULER;
                         }
+                    }
+                    else {
+                        System.out.println("No s'ha trobat aquesta paraula, prova amb una altre");
+                        stop();
                     }
                 }
             }
