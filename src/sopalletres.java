@@ -115,7 +115,7 @@ public class sopalletres {
         for (int fila = 1; fila < MIDATAULER - 1; fila++) {
             for (int columna = 1; columna < MIDATAULER - 1; columna++) {
 
-                if (tauler[fila][columna] == paraulaPerCercar.charAt(0)) { // Revisa que la lletra analitzada sigui igual que la primera de la paraula per analitzar
+                if (Character.toLowerCase(tauler[fila][columna]) == paraulaPerCercar.charAt(0)) { // Revisa que la lletra analitzada sigui igual que la primera de la paraula per analitzar
 
                     if (paraulaPerCercar.length() == 1) { // Si la paraula te nomes una lletra deixa de buscar més
                         existeix = true;
@@ -150,7 +150,7 @@ public class sopalletres {
         for (int filaPerRevisar = fila - 1; filaPerRevisar <= fila + 1; filaPerRevisar++) {
             for (int columnaPerRevisar = columna - 1; columnaPerRevisar <= columna + 1; columnaPerRevisar++) {
 
-                if (tauler[filaPerRevisar][columnaPerRevisar] == paraulaPerCercar.charAt(1) && !(filaPerRevisar == fila && columnaPerRevisar == columna)) {
+                if (Character.toLowerCase(tauler[filaPerRevisar][columnaPerRevisar]) == paraulaPerCercar.charAt(1) && !(filaPerRevisar == fila && columnaPerRevisar == columna)) {
                     if (paraulaPerCercar.length() == 2) { // En cas que la paraula a cercar tingui només 2 lletres
                         existeix = true;
                     }
@@ -178,7 +178,7 @@ public class sopalletres {
         for (int filaPerRevisar = (filaSegonaLletra + incrementY); filaPerRevisar >= 0 && filaPerRevisar < MIDATAULER; filaPerRevisar += incrementY) {
             for (int columnaPerRevisar = (columnaSegonaLletra + incrementX); columnaPerRevisar >= 0 && columnaPerRevisar < MIDATAULER; columnaPerRevisar += incrementX) {
 
-                if (tauler[filaPerRevisar][columnaPerRevisar] == paraulaPerCercar.charAt(lletraParaula)) {
+                if (Character.toLowerCase(tauler[filaPerRevisar][columnaPerRevisar])  == paraulaPerCercar.charAt(lletraParaula)) {
                     existeix = true;
                     lletraParaula ++;
                 }
