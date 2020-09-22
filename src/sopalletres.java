@@ -183,7 +183,7 @@ public class sopalletres {
                     lletraParaula ++;
                 }
 
-                if (lletraParaula >= paraulaPerCercar.length()) { // Si la posicio de la paraula es mes gran que la longitud de la mateixa, surt
+                if (lletraParaula >= paraulaPerCercar.length() || !existeix) { // Si la posicio de la paraula es mes gran que la longitud de la mateixa, surt
                     filaPerRevisar = MIDATAULER + 1;
                     columnaPerRevisar = MIDATAULER + 1;
                 }
