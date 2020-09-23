@@ -111,6 +111,7 @@ public class sopalletres {
     private void cercaParaula(boolean continuat, String paraulaPerCercar) throws InterruptedException {
 
         boolean existeix = false;
+        boolean trobada = false; // S'utilitza quan la cerca no s'atura en la primera pasada. D'aquesta manera es sap si ha arribat a trobar un cop la repeticio
 
         for (int fila = 1; fila < MIDATAULER - 1; fila++) {
             for (int columna = 1; columna < MIDATAULER - 1; columna++) {
@@ -122,6 +123,9 @@ public class sopalletres {
                     }
                     else { // En cas que sigui mes llarga, executa el metode que revisa si la segona lletra esta al voltant
                         existeix = revisarVoltant(fila, columna, paraulaPerCercar);
+
+                        if (existeix) // Si existeix alguna repetició posa la variable a true constatant que s'ha trobat, com a mínim, una repetició a la sopa de lletres
+                            trobada = true;
                     }
 
                     if (existeix) { // Posa la lletra en majuscula
@@ -136,7 +140,7 @@ public class sopalletres {
             }
         }
 
-        if (!existeix) {
+        if (!existeix && !trobada) {
             System.out.println("No s'ha trobat aquesta paraula, prova amb una altre");
             stop();
         }
